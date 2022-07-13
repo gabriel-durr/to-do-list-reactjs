@@ -14,9 +14,15 @@ export function TaskList() {
 	const [newTaskTitle, setNewTaskTitle] = useState(""); // Reponsável pelo nome da task
 	function handleCreateNewTask() {
 		// 1. função que cria nova task
+		
+			let igual = tasks.reduce(
+			(prev, task): any => task.title == newTaskTitle,
+			false
+		);
 
-		if (!newTaskTitle) return;
-		// 2.  Condição para não criar task com title vazio
+		if (!newTaskTitle || igual === true) return;
+
+		// 2.  Condição para não criar task com title vazio, ou com titulo igual a alguma task criada..
 
 		const newTask = {
 			id: Math.random(), // gera id aleatório(não recomendado, só para teste)
