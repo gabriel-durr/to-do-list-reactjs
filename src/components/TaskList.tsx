@@ -15,15 +15,16 @@ export function TaskList() {
 	function handleCreateNewTask() {
 		// 1. função que cria nova task
 		
-			let igual = tasks.reduce(
+		const taskEqual = tasks.reduce(
 			(prev, task): any => task.title == newTaskTitle,
 			false
+			// reduce pra percorrer a lista, e retorna true ou false, se o valor task for igual text digitado no input.
 		);
 
-		if (!newTaskTitle || igual === true) return;
-
+		if (!newTaskTitle || taskEqual === true) return;
 		// 2.  Condição para não criar task com title vazio, ou com titulo igual a alguma task criada..
 
+		
 		const newTask = {
 			id: Math.random(), // gera id aleatório(não recomendado, só para teste)
 			title: newTaskTitle, // Cria titulo, com base no estado que recebe o value do input
