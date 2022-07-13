@@ -21,8 +21,9 @@ export function TaskList() {
 			// reduce pra percorrer a lista, e retorna true ou false, se o valor task for igual text digitado no input.
 		);
 
-		if (!newTaskTitle || taskEqual === true) return;
-		// 2.  Condição para não criar task com title vazio, ou com titulo igual a alguma task criada..
+	if (!newTaskTitle || taskEqual === true || newTaskTitle.length > 17)
+			return;
+/* Cancela criação de uma nova tarefa sí: o campo do input estiver vazio, ou se o nome da task for igual alguma existente, ou se tiver mais de 17 caracters */
 
 		
 		const newTask = {
@@ -67,11 +68,23 @@ export function TaskList() {
 		setTasks(filterTasks);
 		//8. passa pro estado as tasks filtradas, mantendo elas no estado e removendo apenas a que for igual ao ID
 	}
+	
+	function clearTasksAll() {
+		// Função que limpa toda lista ao clicar no button
+		setTasks([]);
+	}
 
 	return (
 		<section className="task-list container">
 			<header>
 				<h2>Minhas tasks</h2>
+					<button
+					type="button"
+					data-testid="remove-task-button"
+					onClick={clearTasksAll}>
+					<AiOutlineClear aria-selectedsize={25} />
+				</button>
+
 
 				<div className="input-group">
 					<input
