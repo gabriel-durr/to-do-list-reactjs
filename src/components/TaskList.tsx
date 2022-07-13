@@ -1,6 +1,5 @@
 import {useState} from "react";
-
-import "../styles/tasklist.scss";
+import "../styles/taskList.scss";
 
 import {FiTrash, FiCheckSquare} from "react-icons/fi";
 
@@ -11,35 +10,24 @@ interface Task {
 }
 
 export function TaskList() {
-	const [tasks, setTasks] = useState<Task[]>([]);
-	const [newTaskTitle, setNewTaskTitle] = useState("");
+	const [tasks, setTasks] = useState<Task[]>([]); // Responsável pelas taks
+	const [newTaskTitle, setNewTaskTitle] = useState(""); // Reponsável pelo nome da task
 
 	function handleCreateNewTask() {
-		// 1. função que cria nova task
-
 		if (!newTaskTitle) return;
-		// 2.  Condição para não criar task com title vazio
 
 		const newTask = {
-			id: Math.random(), // gera id aleatório(não recomendado, só para teste)
-			title: newTaskTitle, // Cria titulo, com base no estado que recebe o value do input
-			isComplete: false, // Boolean que começa com false. (true) indica que a task foi completada.
+			id: Math.random(),
+			title: newTaskTitle,
+			isComplete: false,
 		};
-		//3. Objeto que segue o padrão de tipos da interface TS
 
 		setTasks(prevState => [...prevState, newTask]);
-		// 4. Passa para função do state, o objeto que contem a nova task, e recupera a task anterior do estado.
-
 		setNewTaskTitle("");
-		// 5. pasas para função que altera o estado uma string vazia, para limpar o input após criar uma nova task
 	}
 
 	function handleToggleTaskCompletion(id: number) {
-		// 9. Altere entre true` ou `false` o campo `isComplete` de uma task pelo ID
-
 		const newTasks = tasks.map(task =>
-			// 10. Percorremos a lista de staks, e as taks que tiverem o ID igual da task que passamos no event, criamos um novo objeto que vais ser a nossa nova task, fazemos um spread que pega todos valores da task e subscreve apenas a prop `isComplete`, alterando para o valor contrário do que esta (fazendo switch). Se a task for diferente do ID, ela apenas retorna a task do jeito que esta, sem fazer modificações.
-
 			task.id === id
 				? {
 						...task,
@@ -49,18 +37,11 @@ export function TaskList() {
 		);
 
 		setTasks(newTasks);
-
-		// 11. Passa para o estado a nova task criada (completada ou não completada)
 	}
 
 	function handleRemoveTask(id: number) {
-		//6. Funcão q Remove a task da listagem pelo ID
-
 		const filterTasks = tasks.filter(task => task.id !== id);
-		//7. filtra as  taks com id que são diferentes do id passado ao clicar no event button
-
 		setTasks(filterTasks);
-		//8. passa pro estado as tasks filtradas, mantendo elas no estado e removendo apenas a que for igual ao ID
 	}
 
 	return (
@@ -96,8 +77,11 @@ export function TaskList() {
 										type="checkbox"
 										readOnly
 										checked={task.isComplete}
-										onClick={() =>
-											handleToggleTaskCompletion(task.id)
+										onClick={
+											() =>
+												handleToggleTaskCompletion(
+													task.id
+												) // Insere um evento em cada task, que fica no aguardo para passar o id para função, quando o evento ocorrer
 										}
 									/>
 									<span className="checkmark"></span>
@@ -108,7 +92,9 @@ export function TaskList() {
 							<button
 								type="button"
 								data-testid="remove-task-button"
-								onClick={() => handleRemoveTask(task.id)}>
+								onClick={() => handleRemoveTask(task.id)}
+								// Insere um evento em cada task, que fica no aguardo para passar o id para função, quando o evento ocorrer
+							>
 								<FiTrash size={16} />
 							</button>
 						</li>
